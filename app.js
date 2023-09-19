@@ -1,9 +1,15 @@
 const express = require("express");
 const app = express();
 const port = process.env.PORT || 3001;
-app.disable('x-powered-by');
-app.disable('server');
-app.disable('x-render-origin-server');
+app.use((req, res, next) => {
+  // Remove the Server header completely
+  res.removeHeader('Server');
+
+  // Optionally, set a custom Server header
+  // res.setHeader('Server', 'CustomServerName');
+
+  next();
+});
 app.get("/", (req, res) => res.type('html').send(html));
 
 const server = app.listen(port, () => console.log(`Example app listening on port ${port}!`));
